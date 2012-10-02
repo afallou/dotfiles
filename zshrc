@@ -10,6 +10,8 @@ ZSH_THEME="eastwood"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias rtest='bundle exec rake test && bundle exec rake spec && open coverage/index.html'
+
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
