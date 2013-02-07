@@ -7,8 +7,9 @@
   st = status
   br = branch
 [user]
-  name = Adrien Fallou
+	name = afallou
   mail = adrien.fallou@gmail.com
+	email = adrien.fallou@gmail.com
 [difftool "Kaleidoscope"]
   cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
 [difftool]

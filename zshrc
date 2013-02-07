@@ -35,3 +35,6 @@ export PATH='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/lo
 unsetopt correct_all
 
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
