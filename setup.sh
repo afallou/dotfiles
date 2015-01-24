@@ -6,7 +6,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 brew install caskroom/cask/brew-cask
 
 # iTerm2
-brew cqsk install iterm2
+brew cask install iterm2
 
 # cURL and oh-my-zsh
 brew install curl
