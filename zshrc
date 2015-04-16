@@ -89,10 +89,27 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# for anaconda
+export PATH=~/anaconda/bin:$PATH
+
+alias java='java -Dapple.awt.UIElement="true"'
+alias hadoop121=/usr/local/Cellar/hadoop121/1.2.1/bin/hadoop
+
 # syntax highlighting & substring search
 source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh-history-substring-search/zsh-history-substring-search.zsh
 
-# substring search key bindings
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+#go to beginning/end of word
+bindkey '[C' forward-word
+bindkey '[D' backward-word
+
+source ~/.nvm/nvm.sh
