@@ -27,39 +27,16 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git osx ruby rails rvm sublime zsh-syntax-highlighting zsh-history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
-export PATH='$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11/bin:~/bin'
+export PATH='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11/bin:~/bin'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # Disable zsh correction
 unsetopt correct_all
 
-[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
 # User configuration
 
-export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -112,10 +89,47 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey '[C' forward-word
 bindkey '[D' backward-word
 
-PATH=$PATH:/usr/local/sbin
+# Delete word with opt-backspace/opt-delete
+bindkey '[G' backward-kill-word
+bindkey '[H' kill-word
+
+# Delete line with cmd-backspace
+bindkey '[I' kill-whole-line
+
+# virtualenvwrapper
+export WORKON_HOME=~/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
+source /usr/local/bin/virtualenvwrapper.sh
+
+export PATH=/usr/local/bin:$PATH
+
+# Env variables
 source ~/.env
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export PATH="$PATH:/Users/adrien/anaconda/lib/python3.5/site-packages"
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Enable Shell integration in iTerm2 - see https://www.iterm2.com/documentation-shell-integration.html
+source ~/.iterm2_shell_integration.`basename $SHELL`
+
+# NVM
+# export NVM_DIR="/Users/adrienfallou/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export CDPATH=.:~:~/Code
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
+
+# Python debugger - see https://hackernoon.com/python-3-7s-new-builtin-breakpoint-a-quick-tour-4f1aebc444c
+export PYTHONBREAKPOINT=ipdb.set_trace
+
+# adb
+export ANDROID_HOME=/Users/adrienfallou/Library/Android/sdk
+export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+[[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# Use GNU sed instead of system default
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
