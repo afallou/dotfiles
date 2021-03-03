@@ -1,0 +1,3 @@
+alias wo='workon ${PWD##*/}'
+alias gpush=git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+alias prmaster=git pull-request -b master
