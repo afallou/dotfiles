@@ -6,6 +6,8 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="eastwood"
+# See https://github.com/ohmyzsh/ohmyzsh/issues/6835#issuecomment-390216875
+ZSH_DISABLE_COMPFIX=true
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -72,10 +74,6 @@ export PATH=~/anaconda/bin:$PATH
 alias java='java -Dapple.awt.UIElement="true"'
 alias hadoop121=/usr/local/Cellar/hadoop121/1.2.1/bin/hadoop
 
-# syntax highlighting & substring search
-source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh-history-substring-search/zsh-history-substring-search.zsh
-
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
@@ -84,6 +82,10 @@ bindkey -M vicmd 'j' history-substring-search-down
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# syntax highlighting & substring search
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #go to beginning/end of word
 bindkey '[C' forward-word
@@ -96,11 +98,6 @@ bindkey '[H' kill-word
 # Delete line with cmd-backspace
 bindkey '[I' kill-whole-line
 
-# virtualenvwrapper
-export WORKON_HOME=~/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2.7
-source /usr/local/bin/virtualenvwrapper.sh
-
 export PATH=/usr/local/bin:$PATH
 
 # Env variables
@@ -111,13 +108,13 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 source ~/.iterm2_shell_integration.`basename $SHELL`
 
 # NVM
-# export NVM_DIR="/Users/adrienfallou/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
 
 export CDPATH=.:~:~/Code
-
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
 
 # Python debugger - see https://hackernoon.com/python-3-7s-new-builtin-breakpoint-a-quick-tour-4f1aebc444c
 export PYTHONBREAKPOINT=ipdb.set_trace
@@ -128,8 +125,16 @@ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
 # Use GNU sed instead of system default
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pyenv
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
+pyenv virtualenvwrapper
+PATH="/Users/adrienfallou/.virtualenvs/global/bin:$PATH"
+
+# pyenv-virtualenvwrapper
+export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
