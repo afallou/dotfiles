@@ -1,3 +1,9 @@
-alias wo='workon ${PWD##*/}'
+#!/bin/bash
+
+# Shorthand to activate venv
+pwd_name=${PWD##*/}          # to assign to a variable
+pwd_name=${pwd_name:-/}        # to correct for the case where PWD=/
+alias wo=". ~/.virtualenvs/${pwd_name}/bin/activate"
+
 alias gpush=git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
 alias prmaster=git pull-request -b master
