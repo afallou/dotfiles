@@ -6,8 +6,6 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="eastwood"
-# See https://github.com/ohmyzsh/ohmyzsh/issues/6835#issuecomment-390216875
-ZSH_DISABLE_COMPFIX=true
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -26,7 +24,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(git osx ruby rails rvm sublime zsh-syntax-highlighting zsh-history-substring-search)
+plugins=(git macos ruby rails rvm sublime zsh-syntax-highlighting zsh-history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 export PATH='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11/bin:~/bin'
@@ -74,6 +72,10 @@ export PATH=~/anaconda/bin:$PATH
 alias java='java -Dapple.awt.UIElement="true"'
 alias hadoop121=/usr/local/Cellar/hadoop121/1.2.1/bin/hadoop
 
+# syntax highlighting & substring search
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+
 # bind k and j for VI mode
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
@@ -82,10 +84,6 @@ bindkey -M vicmd 'j' history-substring-search-down
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
-
-# syntax highlighting & substring search
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #go to beginning/end of word
 bindkey '[C' forward-word
@@ -107,12 +105,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Enable Shell integration in iTerm2 - see https://www.iterm2.com/documentation-shell-integration.html
 source ~/.iterm2_shell_integration.`basename $SHELL`
 
-# NVM
-if [[ -d "$HOME/.nvm" ]]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export CDPATH=.:~:~/Code
 
@@ -125,16 +120,39 @@ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
 
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
 # Use GNU sed instead of system default
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-fi
-pyenv virtualenvwrapper
-PATH="/Users/adrienfallou/.virtualenvs/global/bin:$PATH"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/adrienfallou/Code/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adrienfallou/Code/google-cloud-sdk/path.zsh.inc'; fi
 
-# pyenv-virtualenvwrapper
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/adrienfallou/Code/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/adrienfallou/Code/google-cloud-sdk/completion.zsh.inc'; fi
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+. ~/.aliases
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# pnpm
+export PNPM_HOME="/Users/adrienfallou/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# bun completions
+[ -s "/Users/adrienfallou/.bun/_bun" ] && source "/Users/adrienfallou/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
