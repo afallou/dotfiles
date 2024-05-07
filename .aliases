@@ -1,9 +1,24 @@
 #!/bin/bash
 
-# Shorthand to activate venv
-pwd_name=${PWD##*/}          # to assign to a variable
-pwd_name=${pwd_name:-/}        # to correct for the case where PWD=/
-alias wo=". ~/.virtualenvs/${pwd_name}/bin/activate"
+# Switch to virtualenv with with the same name as the current directory.
+workon() {
+    if [[ $# -eq 0 ]]; then
+        dirname=$(basename "$PWD")
+    else
+        dirname=$1
+    fi
+    echo "Activating virtualenv $dirname"
+    . ~/.virtualenvs/"${dirname}"/bin/activate
+}
 
-alias gpush=git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+gitpush() {
+    git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+
+alias wo=workon
+alias gpush=gitpush
+# The next two require using hub https://hub.github.com/
 alias prmaster=git pull-request -b master
+alias prmain=git pull-request -b main
+
+alias glog=git log --color --graph --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(blue)<%an>%Creset' --abbrev-commit
