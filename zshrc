@@ -129,6 +129,8 @@ PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/adrienfallou/Code/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/adrienfallou/Code/google-cloud-sdk/path.zsh.inc'; fi
+# Use system Python, not venv Python
+CLOUDSDK_PYTHON=/usr/bin/python3
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/adrienfallou/Code/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/adrienfallou/Code/google-cloud-sdk/completion.zsh.inc'; fi
